@@ -52,7 +52,7 @@ public class BtpnsMBTest{
 		for(int i=0; i< param.size() ; i++) {
 			testParam.put(sheetHeader.get(i), param.get(i));
 		}
-
+		
 	}
 	
 	/*
@@ -154,17 +154,42 @@ public class BtpnsMBTest{
 		Sheet sheet = wb.getSheet(sheetName);
 		
 		int counterRow = 0;
-		for(Row row: sheet) {
+		
+		
+		/*for(Row row: sheet) {
 			counterRow++;
 			if(counterRow == 1) continue;
 			ArrayList<String> inner2 = new ArrayList<String>();
-			
+		
 			inner2.add(Integer.toString(counterRow -1));
 			for(Cell cell: row) {
+
 				String val = cell.getStringCellValue(); 
 				inner2.add(val!=null?val:"");
 			}
 			
+			param.add(inner2);
+		}*/
+		
+		Row firstRow = sheet.getRow(0);
+		int sequence = 1;
+		
+		for(Row row: sheet) {
+			if(row.getRowNum() == 0) continue; //skip first row
+			
+			ArrayList<String> inner2 = new ArrayList<String>();
+			inner2.add(Integer.toString(sequence++));
+			
+			for(int col=0; col < firstRow.getLastCellNum(); col++) {
+				Cell cell = row.getCell(col);
+				if(cell == null) {
+					inner2.add("");
+				}
+				else {
+				
+					inner2.add(cell.getStringCellValue());
+				}
+			}
 			param.add(inner2);
 		}
 
